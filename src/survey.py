@@ -3,7 +3,7 @@ import PySimpleGUI as sg
 import matplotlib.pyplot as plt
 df = pd.read_excel('../data/data.xlsx')
 
-sg.theme_global("Dark")
+sg.theme_global("DarkAmber")
 layout = [[sg.Text("Please fil up the details: ")],
           [sg.Text("Name", size=(10, 2)), sg.InputText(key="Name")],
           [sg.Text("Age", size=(10, 2)), sg.InputText(key="Age")],
@@ -27,17 +27,15 @@ def showChart():
     # print(df['Known programming languages'])
     df['Favourite programming language'].value_counts().plot(kind='bar', figsize=(10, 7))
     plt.title("Survey")
-    plt.xlabel("Programming languages")
-    plt.ylabel("Uses")
+    plt.xlabel("Favourite Programming languages")
+    plt.ylabel("Users")
     plt.legend()
     plt.show()
 
 
-flag = 0
 # try:
 while True:
     event, values = window.read()
-    print(values)
     if event == sg.WIN_CLOSED or event == 'Exit':
         break
     if event == "Show previous chart":
@@ -45,17 +43,20 @@ while True:
     if event == "Clear":
         clearForm()
     if event == "Submit":
+        flag = 0
         for key in values:  # checking if fields are empty or not
-            print(values[key])
+            values[key] = values[key].capitalize()
             if values[key] == '':
                 flag = 1
+                break
         if flag == 1:
             sg.Popup("Fields can't be empty!")
-            break
-        df = df.append(values, ignore_index=True)
-        df.to_excel('../data/data.xlsx', index=False)
-        sg.Popup("Data Saved")
-        clearForm()
+        else:
+            values['Age'] = int(values['Age'])
+            df = df.append(values, ignore_index=True)
+            df.to_excel('../data/data.xlsx', index=False)
+            sg.Popup("Data Saved")
+            clearForm()
 
 window.close()
 # except:
