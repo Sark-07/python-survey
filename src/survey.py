@@ -12,8 +12,7 @@ layout = [[sg.Text("Please fil up the details: ")],
           [sg.Text("Favourite programming language", size=(10, 4)), sg.InputText(key="Favourite programming language")],
           [sg.Button("Submit"), sg.Button("Exit"), sg.Button("Clear"), sg.Button("Show previous chart")]
           ]
-window = sg.Window("Survey application", layout)
-
+window = sg.Window("Survey application", layout, resizable=True, element_justification='center').Finalize()
 
 # clearing the field
 def clearForm():
